@@ -1,8 +1,8 @@
-prefix=/home/workspace/catkin_ws/devel
+prefix=/home/robond/Desktop/ROS/goChaseIt/catkin_ws/devel
 
 Name: my_robot
 Description: Description of my_robot
 Version: 0.0.0
 Cflags: 
-Libs: -L${prefix}/lib 
+Libs: -L/home/robond/Desktop/ROS/goChaseIt/catkin_ws/devel/lib 
 Requires: 

@@ -39,10 +39,11 @@ public:
 		std::vector<int> ball_pixels;
 		
 		unsigned int ball_pixel = img.step * img.height;
-				
-		for(unsigned int i = 0; i < img.height * img.step; i++)
+		//For loop now counting with a step of 3 pixels		
+		for(unsigned int i = 0; i < img.height * img.step; i+=3)
 		{
-			if (img.data[i] == white_pixel)
+			//If statement checking all 3 pixels to confirm if is ball present
+			if (img.data[i] == white_pixel && img.data[i+1] == white_pixel && img.data[i+2] == white_pixel)
 			{
 				ball_pixel = i;
 				break;
@@ -51,7 +52,7 @@ public:
 		}
 		
 		int ball_pose = ball_pixel % img.step;
-		
+		ROS_INFO("Ball position: %d", ball_pose);
 	
 		if (0 < ball_pose && ball_pose <= img.step/3)
 		{
@@ -75,7 +76,7 @@ public:
 			ang_z=0.0;
 		}
 		
-		drive_robot(lin_x, ang_z);
+//		drive_robot(lin_x, ang_z);
 	}
 };
 

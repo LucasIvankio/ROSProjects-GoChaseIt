@@ -36,54 +36,35 @@ public:
 	void process_image_callback(const sensor_msgs::Image img)
 	{
 		int white_pixel=255;
-		bool is_ball = false;
-		unsigned int i = 0;
 		std::vector<int> ball_pixels;
 		
-		int ball_min = img.step * img.height;
-		int ball_max = 0;
+		unsigned int ball_pixel = img.step * img.height;
 				
-		for(int i = 0; i < img.height * img.step; i++)
+		for(unsigned int i = 0; i < img.height * img.step; i++)
 		{
 			if (img.data[i] == white_pixel)
 			{
-				ball_pixels.push_back(i);
+				ball_pixel = i;
+				break;
 			}
 			
 		}
 		
-		for(unsigned int i = 0; i < ball_pixels.size(); i++)
-		{
-			if(ball_pixels[i] < ball_min)
-			{
-				ball_min = ball_pixels[i];
-			}
-		}
+		int ball_pose = ball_pixel % img.step;
 		
-		int col_min = ball_min % img.step;
-		int col_max = ball_max % img.step;
-		
-		if(col_min == 0)col_min = img.step;
-		if(col_max == 0)col_max = img.step;
-		
-		int ball_center = ((col_max - col_min) / 2) + col_min;
-		
-		//Find the position of the ball related to the image
-		float ball_pos = ball_center / (float)img.step;
-
-		
-		if (ball_pos <= 0.67)
+	
+		if (0 < ball_pose && ball_pose <= img.step/3)
 		{
 			lin_x=0;
 			ang_z=0.5;
 		}
 		
-		else if (ball_pos > 0.67 && ball_pos <= 0.84)
+		else if (ball_pose > img.step/3 && ball_pose <= img.step*2/3)
 		{
 			lin_x=0.3;
 			ang_z=0.0;
 		}
-		else if (ball_pos > 0.84 && ball_pos < 1)
+		else if (ball_pose > img.step*2/3 && ball_pose < img.step)
 		{
 			lin_x=0;
 			ang_z=-0.5;
